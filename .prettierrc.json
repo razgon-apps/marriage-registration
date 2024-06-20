@@ -1,0 +1,17 @@
+{
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "singleQuote": true,
+  "doubleQuote": true,
+  "semi": true,
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "importOrder": [
+    "^react$",
+    "^@mantine/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^(app|features|pages|shared|widgets)/.*$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
