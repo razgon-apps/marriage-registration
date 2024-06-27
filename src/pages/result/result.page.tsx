@@ -10,9 +10,5 @@ export const ResultPage = observer(() => {
 
   console.log('InfoFormStore.data', toJS(InfoFormStore.data));
 
-  return (
-    <div>
-      <CanvasImage formData={InfoFormStore.data} imageUrl={templateImg} />
-    </div>
-  );
+  return <CanvasImage formData={InfoFormStore.data} imageUrl={templateImg} />;
 });

@@ -1,61 +1,46 @@
 import { useCallback } from 'react';
 
-import { Button, Input, SimpleGrid } from '@mantine/core';
+import { Box, Button, Image, SimpleGrid, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
+import art from 'app/public/img/pages/page-4/art.png';
+import { IInfoForm, IPersonForm } from 'app/store/info-form-store';
+import { PagesEnum } from 'app/store/panel-store';
 import { useStores } from 'app/store/use-stores';
+import { DefaultButton, ScrollContainer } from 'shared/components';
 
-interface FormData {
-  surname: string;
-  name: string;
-  patronymic: string;
-  citizenship: string;
-  birthDate: string;
-  birthPlace: string;
-  spouseSurname: string;
-  spouseName: string;
-  spousePatronymic: string;
-  spouseCitizenship: string;
-  spouseBirthDate: string;
-  spouseBirthPlace: string;
-  marriageDate: string;
-}
+import { brideDataLabels, groomDataLabels } from './info-form.constants';
+import { useStyles } from './styles';
 
-interface FormInputProps {
-  onChange: (formData: FormData) => void;
-}
-
-const dataForm: FormData = {
+const groomDataForm: IPersonForm = {
   surname: '',
   name: '',
   patronymic: '',
   citizenship: '',
   birthDate: '',
-  birthPlace: '',
-  spouseSurname: '',
-  spouseName: '',
-  spousePatronymic: '',
-  spouseCitizenship: '',
-  spouseBirthDate: '',
-  spouseBirthPlace: '',
-  marriageDate: '',
 };
 
-const today = new Date();
-const yesterday = new Date(today.getTime());
-yesterday.setDate(today.getDate() - 1);
+const brideDataForm: IPersonForm = {
+  surname: '',
+  name: '',
+  patronymic: '',
+  citizenship: '',
+  birthDate: '',
+};
 
-// const validateScheme = z.object({
-//   date: z
-//     .date({ invalid_type_error: 'Укажите дату гороскопа' })
-//     .min(yesterday, { message: 'Дата должна быть текущей или больше' }),
-// });
+const dataForm: IInfoForm = {
+  registrationPlace: '',
+  groom: groomDataForm,
+  bride: brideDataForm,
+};
 
-export const InfoForm: React.FC<FormInputProps> = observer(({ onChange }) => {
+export const InfoForm: React.FC = observer(() => {
   const navigate = useNavigate();
+  const { classes } = useStyles();
   const { PanelStore, InfoFormStore } = useStores();
 
   const form = useForm({
@@ -63,44 +48,79 @@ export const InfoForm: React.FC<FormInputProps> = observer(({ onChange }) => {
     validateInputOnChange: true,
   });
 
-  // const clearAllFields = () => {
-  //   form.reset();
-  //   form.setFieldValue('date', '');
-  //   form.setTouched({ date: true });
-  //   setDatePickerKey(Math.random());
-  // };
-
   const handleSubmit = useCallback(async () => {
     console.log('form.values', form.values);
 
-    InfoFormStore.setData(form.values);
-    PanelStore.setActivePanel('result');
-    navigate('/result');
+    InfoFormStore.setData({
+      registrationPlace: form.values.registrationPlace,
+      groom: form.values.groom,
+      bride: form.values.bride,
+    });
+    PanelStore.setActivePanel(PagesEnum.LOADING);
+    navigate(`/${PagesEnum.LOADING}`);
   }, [form]);
 
   return (
-    <form style={{ width: '100%' }}>
-      <SimpleGrid cols={2} mt={16} w="100%">
-        {Object.keys(dataForm).map((field) => {
-          // const value = zodiacRus[zodiac] ? zodiacRus[zodiac] : null;
-          return (
-            <Input
-              key={field}
-              placeholder={field}
-              {...form.getInputProps(field)}
+    <ScrollContainer className={classes.scroll}>
+      <Box className={classes.root}>
+        <Box>
+          <Image mt={32} src={art} height={64} width={260} fit="contain" />
+        </Box>
+
+        <form className={classes.form}>
+          <SimpleGrid cols={1} mt={10} w="100%">
+            <Text size="xl" fw={600}>
+              Данные жениха:
+            </Text>
+            {Object.keys(groomDataForm).map((field) => {
+              return (
+                <TextInput
+                  w="100%"
+                  size="xl"
+                  radius="xl"
+                  key={field}
+                  placeholder={groomDataLabels[field]}
+                  {...form.getInputProps(`groom.${field}`)}
+                />
+              );
+            })}
+
+            <Text size="xl" fw={600}>
+              Данные невесты:
+            </Text>
+            {Object.keys(brideDataForm).map((field) => {
+              return (
+                <TextInput
+                  size="xl"
+                  radius="xl"
+                  key={field}
+                  placeholder={brideDataLabels[field]}
+                  {...form.getInputProps(`bride.${field}`)}
+                />
+              );
+            })}
+            <Text size="xl" fw={600}>
+              Данные свидетельства:
+            </Text>
+            <TextInput
+              size="xl"
+              radius="xl"
+              key="registrationPlace"
+              placeholder="Место регистрации брака (город)"
+              {...form.getInputProps('registrationPlace')}
             />
-          );
-        })}
-      </SimpleGrid>
-      <Button
-        disabled={!form.isValid()}
-        color="button.0"
-        onClick={handleSubmit}
-        fullWidth
-        sx={{ fontWeight: 500 }}
-      >
-        Далее
-      </Button>
-    </form>
+          </SimpleGrid>
+          <DefaultButton
+            variant="gradient"
+            gradient={{ from: '#7DB8A4', to: '#41AE8D', deg: 90 }}
+            onClick={handleSubmit}
+            mb={30}
+            mt={20}
+          >
+            Создать
+          </DefaultButton>
+        </form>
+      </Box>
+    </ScrollContainer>
   );
 });

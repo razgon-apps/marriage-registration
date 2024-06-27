@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
+import { Box } from '@mantine/core';
+
 import { IInfoForm } from 'app/store/info-form-store';
+
+import { useStyles } from './styles';
 
 interface CanvasImageProps {
   formData: IInfoForm;
@@ -11,6 +15,7 @@ export const CanvasImage: React.FC<CanvasImageProps> = ({
   formData,
   imageUrl,
 }) => {
+  const { classes } = useStyles();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -22,25 +27,29 @@ export const CanvasImage: React.FC<CanvasImageProps> = ({
     image.onload = () => {
       ctx!.drawImage(image, 0, 0, canvas!.width, canvas!.height);
 
-      ctx!.font = '20px Arial';
+      ctx!.font = '9px Gilroy';
       ctx!.fillStyle = 'black';
 
       // Example of text positions
-      ctx!.fillText(formData?.surname ?? '', 100, 100);
-      ctx!.fillText(formData.name, 100, 140);
-      ctx!.fillText(formData.patronymic, 100, 180);
-      ctx!.fillText(formData.citizenship, 100, 220);
-      ctx!.fillText(formData.birthDate, 100, 260);
-      ctx!.fillText(formData.birthPlace, 100, 300);
-      ctx!.fillText(formData.spouseSurname, 100, 340);
-      ctx!.fillText(formData.spouseName, 100, 380);
-      ctx!.fillText(formData.spousePatronymic, 100, 420);
-      ctx!.fillText(formData.spouseCitizenship, 100, 460);
-      ctx!.fillText(formData.spouseBirthDate, 100, 500);
-      ctx!.fillText(formData.spouseBirthPlace, 100, 540);
-      ctx!.fillText(formData.marriageDate, 100, 580);
+      ctx!.fillText(formData?.groom?.surname ?? '', 70, 85);
+      ctx!.fillText(formData?.groom?.name ?? '', 85, 97);
+      ctx!.fillText(formData?.groom?.patronymic ?? '', 112, 97);
+      ctx!.fillText(formData?.groom?.citizenship ?? '', 85, 120);
+      ctx!.fillText(formData?.groom?.birthDate ?? '', 140, 133);
+
+      ctx!.fillText(formData?.bride?.surname ?? '', 70, 180);
+      ctx!.fillText(formData?.bride?.name ?? '', 85, 192);
+      ctx!.fillText(formData?.bride?.patronymic ?? '', 117, 192);
+      ctx!.fillText(formData?.bride?.citizenship ?? '', 85, 215);
+      ctx!.fillText(formData?.bride?.birthDate ?? '', 140, 228);
+
+      ctx!.fillText(formData?.registrationPlace ?? '', 125, 342);
     };
   }, [formData, imageUrl]);
 
-  return <canvas ref={canvasRef} width={800} height={600}></canvas>;
+  return (
+    <Box className={classes.root}>
+      <canvas ref={canvasRef} width={300} height={420}></canvas>
+    </Box>
+  );
 };

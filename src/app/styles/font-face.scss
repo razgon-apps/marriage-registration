@@ -1,13 +1,14 @@
-$font-path-roboto-mono: "../public/assets/fonts/roboto-mono" !default;
+$font-path-roboto-mono: '../public/assets/fonts/roboto-mono' !default;
+$font-path-gilroy: '../public/assets/fonts/gilroy' !default;
 
 @mixin roboto-mono-font($type, $weight, $style: normal) {
   @font-face {
-    font-family: "Roboto Mono";
-    src: url("#{$font-path-roboto-mono}/RobotoMono-#{$type}.woff2")
-        format("woff2"),
-      url("#{$font-path-roboto-mono}/RobotoMono-#{$type}.woff") format("woff"),
-      url("#{$font-path-roboto-mono}/RobotoMono-#{$type}.ttf")
-        format("truetype");
+    font-family: 'Roboto Mono';
+    src:
+      url('#{$font-path-roboto-mono}/RobotoMono-#{$type}.woff2') format('woff2'),
+      url('#{$font-path-roboto-mono}/RobotoMono-#{$type}.woff') format('woff'),
+      url('#{$font-path-roboto-mono}/RobotoMono-#{$type}.ttf')
+        format('truetype');
     font-weight: $weight;
     font-style: $style;
   }
@@ -24,3 +25,27 @@ $font-path-roboto-mono: "../public/assets/fonts/roboto-mono" !default;
 @include roboto-mono-font-pair(Medium, 500);
 
 @include roboto-mono-font-pair(Bold, 700);
+
+@mixin gilroy-font($type, $weight, $style: normal) {
+  @font-face {
+    font-family: 'Gilroy';
+    src:
+      url('#{$font-path-gilroy}/Gilroy-#{$type}.woff2') format('woff2'),
+      url('#{$font-path-gilroy}/Gilroy-#{$type}.woff') format('woff'),
+      url('#{$font-path-gilroy}/Gilroy-#{$type}.ttf') format('truetype');
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+@mixin gilroy-font-pair($type, $weight) {
+  @include gilroy-font($type, $weight);
+}
+
+@include gilroy-font-pair(Light, 300);
+
+@include gilroy-font-pair(Regular, 400);
+
+@include gilroy-font-pair(Medium, 500);
+
+@include gilroy-font-pair(Bold, 700);

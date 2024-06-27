@@ -1,16 +1,23 @@
 import { action, makeObservable, observable } from 'mobx';
 
+export enum PagesEnum {
+  HOME = 'home',
+  ALLOW_ACCESS = 'allow-access',
+  RESULT = 'result',
+  LOADING = 'loading',
+  CREATE = 'create',
+  INFO = 'info',
+}
 export class PanelStore {
   loading = false;
+  activePanel: PagesEnum = PagesEnum.HOME;
 
-  activePanel = 'home';
-
-  setActivePanel = (path: string) => {
-    this.activePanel = path;
+  setActivePanel = (activePanel: PagesEnum) => {
+    this.activePanel = activePanel;
   };
 
   resetStore = () => {
-    this.activePanel = 'home';
+    this.activePanel = PagesEnum.HOME;
     this.loading = false;
   };
 

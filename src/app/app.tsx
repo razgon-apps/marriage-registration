@@ -6,6 +6,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Router } from './providers';
+import { WithMantine } from './providers/with-mantine';
+import { WithVkBridge } from './providers/with-vkbridge';
 import queryClient from './react-query';
 import './styles/common.scss';
 
@@ -18,7 +20,11 @@ root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Router />
+        <WithMantine>
+          <WithVkBridge>
+            <Router />
+          </WithVkBridge>
+        </WithMantine>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,

@@ -7,9 +7,9 @@ import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { BookIcon, StarIcon, UsersIcon } from 'app/public/assets/icons';
+import { PagesEnum } from 'app/store/panel-store';
 import { useStores } from 'app/store/use-stores';
 import { ADMINS, USER_ID } from 'shared/constants';
-import { PagesEnum } from 'shared/types/enums';
 
 import { useStyles } from './styles';
 
@@ -17,14 +17,20 @@ const tabs = [
   {
     id: 1,
     icon: <IconHome2 />,
-    name: PagesEnum.home,
+    name: PagesEnum.HOME,
     path: '',
   },
   {
     id: 2,
     icon: <UsersIcon />,
-    name: PagesEnum.result,
-    path: `/${PagesEnum.result}`,
+    name: PagesEnum.RESULT,
+    path: `/${PagesEnum.RESULT}`,
+  },
+  {
+    id: 3,
+    icon: <StarIcon />,
+    name: PagesEnum.LOADING,
+    path: `/${PagesEnum.LOADING}`,
   },
   // {
   //   id: 3,
@@ -54,7 +60,7 @@ const Footer = observer(() => {
 
   const handleClick = useCallback(
     (event: SyntheticEvent<HTMLButtonElement>) => {
-      const name = event.currentTarget.dataset.name ?? '';
+      const name = (event.currentTarget.dataset.name as PagesEnum) ?? '';
       const path = event.currentTarget.dataset.path ?? '';
       PanelStore.setActivePanel(name);
 

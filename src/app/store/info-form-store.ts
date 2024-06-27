@@ -1,20 +1,19 @@
 import { action, makeObservable, observable } from 'mobx';
 
-export interface IInfoForm {
-  surname?: string;
-  name?: string;
-  patronymic?: string;
-  citizenship?: string;
-  birthDate?: string;
-  birthPlace?: string;
-  spouseSurname?: string;
-  spouseName?: string;
-  spousePatronymic?: string;
-  spouseCitizenship?: string;
-  spouseBirthDate?: string;
-  spouseBirthPlace?: string;
-  marriageDate?: string;
+export interface IPersonForm {
+  surname: string;
+  name: string;
+  patronymic: string;
+  citizenship: string;
+  birthDate: string;
 }
+
+export interface IInfoForm {
+  registrationPlace?: string;
+  groom?: IPersonForm;
+  bride?: IPersonForm;
+}
+
 export class InfoFormStore {
   data: IInfoForm = {};
 

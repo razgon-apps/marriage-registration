@@ -1,14 +1,13 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
-import { Box } from '@mantine/core';
+import { BackgroundImage, Box } from '@mantine/core';
 
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Outlet } from 'react-router-dom';
 
-import { ArrowLeftIcon } from 'app/public/assets/icons';
-import { useStores } from 'app/store/use-stores';
-import { Footer, Header } from 'shared/components';
-import { PagesEnum } from 'shared/types/enums';
+import bgImage from 'app/public/img/background.png';
+import { PagesEnum } from 'app/store/panel-store';
 
 import { useStyles } from './styles';
 
@@ -17,8 +16,8 @@ interface ICurrentTitle {
 }
 
 const currentTitle: ICurrentTitle = {
-  [PagesEnum.home]: 'Главная',
-  [PagesEnum.result]: 'Результат',
+  [PagesEnum.HOME]: 'Главная',
+  [PagesEnum.RESULT]: 'Результат',
 };
 
 interface ILayoutProps {
@@ -26,20 +25,32 @@ interface ILayoutProps {
 }
 
 export const MainLayout: FC<ILayoutProps> = observer(({ prevPage }) => {
-  const { PanelStore } = useStores();
   const { classes } = useStyles();
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const { data } = await getPayload();
+
+  //       if (data && data.success) {
+  //         UserStore.setGroups(data.message);
+  //       }
+  //     } catch (e) {
+  //       console.warn('getPayload ERR', e);
+  //     }
+
+  //     const user = await bridge.send('VKWebAppGetUserInfo');
+  //     localStorage.setItem('userInfo', JSON.stringify(user));
+
+  //     UserStore.setUserInfo(user);
+  //   })();
+  // }, []);
 
   return (
     <Box className={classes.root}>
-      <Header
-        title={currentTitle[PanelStore?.activePanel]}
-        prevPage={prevPage}
-        iconLeft={<ArrowLeftIcon fill="white" />}
-      />
-      <main style={{ height: `calc(100vh - 110px)` }}>
+      <BackgroundImage src={bgImage} h="100vh">
         <Outlet />
-      </main>
-      <Footer />
+      </BackgroundImage>
     </Box>
   );
 });
