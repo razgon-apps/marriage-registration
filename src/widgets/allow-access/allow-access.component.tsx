@@ -34,11 +34,13 @@ export const AllowAccess: FC = observer(() => {
 
   const getAccessAnfPosting = async () => {
     const token = await getUserToken('wall,photos,friends');
-    console.log('test');
+    console.error('test123456');
+
     console.log('test1');
+    console.log('test2');
     if (token) {
       UserStore.setUserToken(token);
-
+      console.log('test666');
       try {
         await postPhotoOnWall(story, token);
       } catch (e) {
