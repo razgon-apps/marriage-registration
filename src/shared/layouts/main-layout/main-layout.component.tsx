@@ -4,10 +4,11 @@ import { BackgroundImage, Box } from '@mantine/core';
 
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import bgImage from 'app/public/img/background.png';
-import { PagesEnum } from 'app/store/panel-store';
+import { PagesEnum } from 'app/store/pages-store';
+import { useStores } from 'app/store/use-stores';
 
 import { useStyles } from './styles';
 
@@ -26,6 +27,11 @@ interface ILayoutProps {
 
 export const MainLayout: FC<ILayoutProps> = observer(({ prevPage }) => {
   const { classes } = useStyles();
+  const location = useLocation();
+
+  const currentPath = location.pathname;
+
+  console.log('currentPath', currentPath);
 
   // useEffect(() => {
   //   (async () => {
@@ -48,7 +54,11 @@ export const MainLayout: FC<ILayoutProps> = observer(({ prevPage }) => {
 
   return (
     <Box className={classes.root}>
-      <BackgroundImage src={bgImage} h="100vh">
+      <BackgroundImage
+        src={bgImage}
+        bg={location.pathname === '/admin' ? '#132136' : undefined}
+        h="100vh"
+      >
         <Outlet />
       </BackgroundImage>
     </Box>

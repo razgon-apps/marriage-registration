@@ -5,7 +5,7 @@ import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { PagesEnum } from 'app/store/panel-store';
+import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 
 import { useStyles } from './styles';
@@ -20,12 +20,12 @@ interface IHeader {
 const Header: FC<IHeader> = observer(
   ({ title, prevPage = '', iconLeft, iconRight }) => {
     const navigate = useNavigate();
-    const { PanelStore } = useStores();
+    const { PagesStore } = useStores();
     const { classes } = useStyles();
 
     const handleClick = useCallback((event: SyntheticEvent<HTMLDivElement>) => {
       const name = (event.currentTarget.dataset.name as PagesEnum) ?? '';
-      PanelStore.setActivePanel(name);
+      PagesStore.setActivePage(name);
       navigate(`/${name}`);
     }, []);
 

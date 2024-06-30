@@ -6,9 +6,10 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
+import { RouterPathEnum } from 'app/providers';
 import art from 'app/public/img/pages/page-2/art.png';
 import story from 'app/public/img/story.png';
-import { PagesEnum } from 'app/store/panel-store';
+import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { PlatformEnum } from 'app/store/user-store';
 import { DefaultButton } from 'shared/components/default-button';
@@ -22,14 +23,15 @@ import { useStyles } from './styles';
 
 export const AllowAccess: FC = observer(() => {
   const { classes } = useStyles();
-  const { UserStore } = useStores();
+  const { UserStore, PagesStore } = useStores();
   const navigate = useNavigate();
   const [checkedAccessPhotoInAlbum, setCheckedAccessPhotoInAlbum] =
     useState(true);
   const [checkedAccessHaveFun, setCheckedAccessHaveFun] = useState(true);
 
   const handleClick = () => {
-    navigate(`/${PagesEnum.CREATE}`);
+    navigate(RouterPathEnum.CREATE);
+    PagesStore.setActivePage(PagesEnum.CREATE);
   };
 
   const getAccessAnfPosting = async () => {
@@ -108,7 +110,11 @@ export const AllowAccess: FC = observer(() => {
         </Box>
       </Box>
 
-      <Box className={classes.footer}>
+      <Box
+        className={cn(classes.footer, {
+          [classes.mobileFooter]: UserStore.platform !== PlatformEnum.WEB,
+        })}
+      >
         <DefaultButton
           disabled={!checkedAccessPhotoInAlbum || !checkedAccessHaveFun}
           variant="gradient"

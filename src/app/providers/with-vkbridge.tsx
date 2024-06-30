@@ -4,6 +4,7 @@ import bridge, { EAdsFormats } from '@vkontakte/vk-bridge';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 
+import { ADMINS, USER_ID } from 'shared/constants';
 import { getUserPlatform } from 'shared/utils';
 
 import { useStores } from '../store/use-stores';
@@ -34,6 +35,7 @@ export const WithVkBridge = observer(
         localStorage.setItem('userInfo', JSON.stringify(user));
 
         UserStore.setUserInfo(user);
+        UserStore.setUserIsAdmin(ADMINS.includes(USER_ID));
       })();
     }, []);
 

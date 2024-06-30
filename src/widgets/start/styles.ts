@@ -15,7 +15,20 @@ export const useStyles = createStyles((theme) => ({
   footer: {
     position: 'fixed',
     bottom: '16px',
-    height: '64px',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mobileFooter: {
+    bottom: '70px',
+  },
+
+  adminButton: {
+    position: 'fixed',
+    top: '16px',
+    left: '16px',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',

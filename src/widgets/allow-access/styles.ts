@@ -12,6 +12,7 @@ export const useStyles = createStyles((theme) => ({
   },
   mobile: {
     justifyContent: 'space-evenly',
+    height: 'calc(100% - 134px)',
   },
   container: {
     width: '100%',
@@ -24,12 +25,14 @@ export const useStyles = createStyles((theme) => ({
   footer: {
     position: 'fixed',
     bottom: '16px',
-    height: '64px',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mobileFooter: {
+    bottom: '70px',
   },
   checkboxContainer: {
     display: 'flex',

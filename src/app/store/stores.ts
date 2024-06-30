@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { InfoFormStore } from './info-form-store';
-import { PanelStore } from './panel-store';
+import { PagesStore } from './pages-store';
 import { UserStore } from './user-store';
 
 export const stores = {
-  PanelStore: new PanelStore(),
+  PagesStore: new PagesStore(),
   InfoFormStore: new InfoFormStore(),
   UserStore: new UserStore(),
 };

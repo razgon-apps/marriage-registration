@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { BookIcon, StarIcon, UsersIcon } from 'app/public/assets/icons';
-import { PagesEnum } from 'app/store/panel-store';
+import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { ADMINS, USER_ID } from 'shared/constants';
 
@@ -51,7 +51,7 @@ const tabs = [
 
 const Footer = observer(() => {
   const { classes, cx } = useStyles();
-  const { PanelStore } = useStores();
+  const { PagesStore } = useStores();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ const Footer = observer(() => {
     (event: SyntheticEvent<HTMLButtonElement>) => {
       const name = (event.currentTarget.dataset.name as PagesEnum) ?? '';
       const path = event.currentTarget.dataset.path ?? '';
-      PanelStore.setActivePanel(name);
+      PagesStore.setActivePage(name);
 
       navigate(path);
     },

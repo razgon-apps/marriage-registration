@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tsconfigPaths(), mkcert()],
     define: {
-      'process.env.CONTACT_PHONE': JSON.stringify(env.CONTACT_PHONE),
+      'process.env.IMGBB_API_KEY': JSON.stringify(env.IMGBB_API_KEY),
     },
     server: {
       port: 8080,

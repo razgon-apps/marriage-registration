@@ -62,15 +62,20 @@ export const subscribeMessageFromGroup = async (
 };
 
 // подписка на группу
-export const addGroup = async (groupId: number) => {
-  return await bridge
+export const addGroup = async (groupId: number): Promise<boolean> => {
+  let resAddGroup = false;
+  await bridge
     .send('VKWebAppJoinGroup', { group_id: groupId })
     .then(({ result }) => {
       console.log('VKWebAppJoinGroup RES', result);
+      resAddGroup = result;
     })
     .catch((err) => {
       console.log('VKWebAppJoinGroup RES', err);
+      resAddGroup = false;
     });
+
+  return resAddGroup;
 };
 
 // добавление сервиса в сообщество

@@ -45,7 +45,7 @@ export const addApp = async (appName: string) => {
 //   return await axios({
 //     method: 'post',
 //     url: `${BASE_URL}/payload/set-payload`,
-//     data: { payload, appName: NAME_PROJECT }
+//     data: { payload, appId: NAME_PROJECT },
 //   });
 // };
 

@@ -41,6 +41,7 @@ export class UserStore {
   token = '';
   groups: IGroups | null = null;
   platform: PlatformEnum | null = null;
+  isAdmin: boolean = false;
 
   setUserInfo = (data: UserInfo) => {
     this.userInfo = data;
@@ -58,9 +59,14 @@ export class UserStore {
     this.platform = platform;
   };
 
+  setUserIsAdmin = (isAdmin: boolean) => {
+    this.isAdmin = isAdmin;
+  };
+
   resetStore = () => {
     this.userInfo = null;
     this.groups = null;
+    this.token = '';
   };
 
   constructor() {

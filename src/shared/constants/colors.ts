@@ -1,6 +1,6 @@
-import { Tuple } from '@mantine/core';
+import { MantineColorsTuple } from '@mantine/core';
 
-export const themeColors: Record<string, Tuple<string, 10>> = {
+export const themeColors: Record<string, MantineColorsTuple> = {
   backgroundGray: [
     '#E9EFF3',
     '#eaf0f4',

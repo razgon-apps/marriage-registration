@@ -44,7 +44,7 @@ export const fileToBase64 = (file: File): Promise<string> => {
 export const addTextInLocalPhoto = async (
   text: string,
   photo: File,
-  _staticText: string
+  _staticText: string,
 ): Promise<{ file: File; blob: Blob; base64: string }> => {
   try {
     // Наложение текста на картинку
@@ -115,7 +115,7 @@ export const addTextInLocalPhoto = async (
             }
           },
           'image/jpeg',
-          0.95
+          0.95,
         );
       });
       const file = new File([blob], 'new-photo.jpeg', { type: 'image/jpeg' });
@@ -135,7 +135,7 @@ export const addTextInLocalPhotoNew = async (
   photo: File,
   _staticText: string,
   width?: number,
-  height?: number
+  height?: number,
 ): Promise<{ file: File; blob: Blob; base64: string }> => {
   try {
     // Наложение текста на картинку
@@ -193,7 +193,8 @@ export const addTextInLocalPhotoNew = async (
         const lineHeight = 30;
         const metrics = context.measureText(line);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const height = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+        const height =
+          metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
         const lineY = _y + index * lineHeight;
         context.fillText(line, _x, lineY);
       });
@@ -202,7 +203,8 @@ export const addTextInLocalPhotoNew = async (
       const metrics = context.measureText(staticText);
       const textWidth = metrics.width;
       const centerX = canvas.width / 2;
-      const staticTextY = canvas.height - 50 - lineHeight * Math.ceil(textWidth / maxWidth);
+      const staticTextY =
+        canvas.height - 50 - lineHeight * Math.ceil(textWidth / maxWidth);
       const textLines = [];
 
       // Разбиваем текст на строки, которые помещаются в заданную ширину
@@ -239,7 +241,7 @@ export const addTextInLocalPhotoNew = async (
             }
           },
           'image/jpeg',
-          0.95
+          0.95,
         );
       });
       const file = new File([blob], 'new-photo.jpeg', { type: 'image/jpeg' });
@@ -256,7 +258,7 @@ export const addTextInLocalPhotoNew = async (
 
 export const uploadImage = async (image: string | File): Promise<string> => {
   // const apiKey = 'af4ce6c5c4954e45a807d8ad653b30ac';
-  const apiKey = process.env.REACT_APP_IMGBB_API_KEY;
+  const apiKey = process.env.IMGBB_API_KEY;
 
   if (!apiKey) {
     throw new Error('API ключ ImgBB API не найден');

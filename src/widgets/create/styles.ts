@@ -11,15 +11,18 @@ export const useStyles = createStyles((theme) => ({
   },
   mobile: {
     justifyContent: 'center',
+    height: 'calc(100% - 134px)',
   },
   footer: {
     position: 'fixed',
     bottom: '16px',
-    height: '64px',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mobileFooter: {
+    bottom: '70px',
   },
 }));

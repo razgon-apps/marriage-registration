@@ -6,8 +6,9 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
+import { RouterPathEnum } from 'app/providers';
 import templateImg from 'app/public/img/template.jpg';
-import { PagesEnum } from 'app/store/panel-store';
+import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { CanvasImage } from 'shared/components/canvas-image';
 
@@ -17,7 +18,7 @@ import { useStyles } from './styles';
 export const ProgressLoading = observer(() => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { PanelStore, InfoFormStore } = useStores();
+  const { PagesStore, InfoFormStore } = useStores();
   const [step, setStep] = useState<number>(0);
 
   useEffect(() => {
@@ -28,8 +29,8 @@ export const ProgressLoading = observer(() => {
 
       return () => clearInterval(interval);
     } else {
-      PanelStore.setActivePanel(PagesEnum.RESULT);
-      navigate(`/${PagesEnum.RESULT}`);
+      PagesStore.setActivePage(PagesEnum.NEARLY_READY);
+      navigate(RouterPathEnum.NEARLY_READY);
     }
   }, [step]);
 

@@ -7,9 +7,10 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
+import { RouterPathEnum } from 'app/providers';
 import art from 'app/public/img/pages/page-4/art.png';
 import { IInfoForm, IPersonForm } from 'app/store/info-form-store';
-import { PagesEnum } from 'app/store/panel-store';
+import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { DefaultButton, ScrollContainer } from 'shared/components';
 
@@ -41,7 +42,7 @@ const dataForm: IInfoForm = {
 export const InfoForm: React.FC = observer(() => {
   const navigate = useNavigate();
   const { classes } = useStyles();
-  const { PanelStore, InfoFormStore } = useStores();
+  const { PagesStore, InfoFormStore } = useStores();
 
   const form = useForm({
     initialValues: dataForm,
@@ -56,8 +57,8 @@ export const InfoForm: React.FC = observer(() => {
       groom: form.values.groom,
       bride: form.values.bride,
     });
-    PanelStore.setActivePanel(PagesEnum.LOADING);
-    navigate(`/${PagesEnum.LOADING}`);
+    PagesStore.setActivePage(PagesEnum.LOADING);
+    navigate(RouterPathEnum.LOADING);
   }, [form]);
 
   return (
