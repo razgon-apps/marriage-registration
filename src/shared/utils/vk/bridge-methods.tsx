@@ -49,16 +49,22 @@ export const getUserToken = async (scope: string) => {
 export const subscribeMessageFromGroup = async (
   groupIDsubscription: number,
 ) => {
-  return await bridge
+  let resMessageFromGroup = false;
+
+  await bridge
     .send('VKWebAppAllowMessagesFromGroup', {
       group_id: groupIDsubscription,
     })
-    .then((res) => {
-      console.log('VKWebAppAllowMessagesFromGroup RES', res);
+    .then(({ result }) => {
+      console.log('VKWebAppAllowMessagesFromGroup RES', result);
+      resMessageFromGroup = result;
     })
     .catch((err) => {
       console.log('VKWebAppAllowMessagesFromGroup ERR', err);
+      resMessageFromGroup = false;
     });
+
+  return resMessageFromGroup;
 };
 
 // подписка на группу
@@ -201,4 +207,23 @@ export const appAllowNotifications = async () => {
     });
 
   return appNotyRes;
+};
+
+// Функция-обёртка для проверки успешного подписания на обе группы и разрешения на отправку сообщений от имени группы
+export const checkSubscription = async (
+  groupId: number,
+  messageId: number,
+): Promise<boolean> => {
+  let isSubscribed = false;
+
+  // Вызываем обе функции в параллель
+  const isSubscribed1 = await addGroup(groupId);
+  const isSubscribed2 = await subscribeMessageFromGroup(messageId);
+
+  // Проверяем, что обе функции вернули true
+  if (isSubscribed1 && isSubscribed2) {
+    isSubscribed = true;
+  }
+
+  return isSubscribed;
 };

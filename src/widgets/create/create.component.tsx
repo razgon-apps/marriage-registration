@@ -11,6 +11,11 @@ import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { PlatformEnum } from 'app/store/user-store';
 import { DefaultButton } from 'shared/components/default-button';
+import {
+  addGroup,
+  checkSubscription,
+  subscribeMessageFromGroup,
+} from 'shared/utils';
 
 import { useStyles } from './styles';
 
@@ -19,7 +24,19 @@ export const Create = observer(() => {
   const { UserStore, PagesStore } = useStores();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    // const group1Id = Number(PagesStore.data[PagesEnum.CREATE]?.group1.id);
+    // const group2Id = Number(PagesStore.data[PagesEnum.CREATE]?.group2.id);
+
+    // const isBothSubscribed = await checkSubscription(group1Id, group2Id);
+
+    // if (isBothSubscribed) {
+    //   navigate(RouterPathEnum.INFO);
+    //   PagesStore.setActivePage(PagesEnum.INFO);
+    // } else {
+    //   handleClick();
+    // }
+
     navigate(RouterPathEnum.INFO);
     PagesStore.setActivePage(PagesEnum.INFO);
   };

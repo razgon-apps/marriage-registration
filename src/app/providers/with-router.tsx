@@ -15,7 +15,7 @@ import ResultPage from 'pages/result';
 import MainLayout from 'shared/layouts/main-layout';
 
 export enum RouterPathEnum {
-  HOME = `/${PagesEnum.HOME}`,
+  HOME = `/`,
   ALLOW_ACCESS = `/${PagesEnum.ALLOW_ACCESS}`,
   CREATE = `/${PagesEnum.CREATE}`,
   INFO = `/${PagesEnum.INFO}`,

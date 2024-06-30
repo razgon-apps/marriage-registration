@@ -39,7 +39,7 @@ export const WithVkBridge = observer(
       })();
     }, []);
 
-    console.log('platform', toJS(UserStore));
+    console.log('UserStore', toJS(UserStore));
 
     return children;
   },

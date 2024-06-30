@@ -39,7 +39,6 @@ export enum PlatformEnum {
 export class UserStore {
   userInfo: UserInfo | null = null;
   token = '';
-  groups: IGroups | null = null;
   platform: PlatformEnum | null = null;
   isAdmin: boolean = false;
 
@@ -49,10 +48,6 @@ export class UserStore {
 
   setUserToken = (token: string) => {
     this.token = token;
-  };
-
-  setGroups = (data: IGroups) => {
-    this.groups = data;
   };
 
   setPlatform = (platform: PlatformEnum | null) => {
@@ -65,7 +60,6 @@ export class UserStore {
 
   resetStore = () => {
     this.userInfo = null;
-    this.groups = null;
     this.token = '';
   };
 

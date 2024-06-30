@@ -10,4 +10,14 @@ export const useStyles = createStyles(() => ({
     flexDirection: 'column',
     padding: 0,
   },
+  adminButton: {
+    position: 'fixed',
+    top: '16px',
+    left: '16px',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));

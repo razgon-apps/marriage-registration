@@ -27,31 +27,12 @@ export const StartStep: FC = observer(() => {
     navigate(RouterPathEnum.ALLOW_ACCESS);
   };
 
-  const handleClickAdmin = () => {
-    PagesStore.setActivePage(PagesEnum.ADMIN);
-    navigate(RouterPathEnum.ADMIN);
-  };
-
   return (
     <Box
       className={cn(classes.root, {
         [classes.mobile]: UserStore.platform !== PlatformEnum.WEB,
       })}
     >
-      {UserStore.isAdmin && (
-        <DefaultButton
-          variant="gradient"
-          gradient={{ from: '#FAC27F', to: '#ED913D', deg: 90 }}
-          onClick={handleClickAdmin}
-          className={classes.adminButton}
-          fz={12}
-          w={60}
-          h={30}
-        >
-          Админ
-        </DefaultButton>
-      )}
-
       <Box>
         <Image src={art} height={300} width={300} fit="contain" />
         <Image src={text} height={200} width={300} fit="contain" />

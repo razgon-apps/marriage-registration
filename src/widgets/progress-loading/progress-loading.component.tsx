@@ -11,6 +11,7 @@ import templateImg from 'app/public/img/template.jpg';
 import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { CanvasImage } from 'shared/components/canvas-image';
+import { checkSubscription } from 'shared/utils';
 
 import { loadingSteps } from './progress-loading.consts';
 import { useStyles } from './styles';
@@ -18,19 +19,36 @@ import { useStyles } from './styles';
 export const ProgressLoading = observer(() => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { PagesStore, InfoFormStore } = useStores();
+  const { PagesStore } = useStores();
   const [step, setStep] = useState<number>(0);
 
+  const handleNextPage = async () => {
+    // const group1Id = Number(PagesStore.data[PagesEnum.LOADING]?.group1.id);
+    // const group2Id = Number(PagesStore.data[PagesEnum.LOADING]?.group2.id);
+
+    // const isBothSubscribed = await checkSubscription(group1Id, group2Id);
+
+    // if (isBothSubscribed) {
+    //   PagesStore.setActivePage(PagesEnum.NEARLY_READY);
+    //   navigate(RouterPathEnum.NEARLY_READY);
+    // } else {
+    //   handleNextPage();
+    // }
+
+    PagesStore.setActivePage(PagesEnum.NEARLY_READY);
+    navigate(RouterPathEnum.NEARLY_READY);
+  };
+
   useEffect(() => {
-    if (step < loadingSteps.length - 1) {
+    if (step === loadingSteps.length - 2) {
+      // Вызываем handleNextPage на предпоследнем шаге
+      handleNextPage();
+    } else if (step < loadingSteps.length - 1) {
       const interval = setInterval(() => {
         setStep((prevStep) => prevStep + 1);
       }, 1000);
 
       return () => clearInterval(interval);
-    } else {
-      PagesStore.setActivePage(PagesEnum.NEARLY_READY);
-      navigate(RouterPathEnum.NEARLY_READY);
     }
   }, [step]);
 
