@@ -6,7 +6,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { RouterPath } from 'app/providers';
+import { RouterPathEnum } from 'app/providers';
 import art from 'app/public/img/pages/page-6/art.png';
 import text from 'app/public/img/pages/page-6/text.png';
 import { PagesEnum } from 'app/store/pages-store';
@@ -37,7 +37,7 @@ export const NearlyReady = observer(() => {
       : { height: 200, width: 300 };
 
   const handleClick = () => {
-    navigate(RouterPath.RESULT);
+    navigate(RouterPathEnum.RESULT);
     PagesStore.setActivePage(PagesEnum.RESULT);
   };
 

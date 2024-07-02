@@ -6,7 +6,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { RouterPath } from 'app/providers';
+import { RouterPathEnum } from 'app/providers';
 import templateImg from 'app/public/img/template.jpg';
 import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
@@ -30,13 +30,13 @@ export const ProgressLoading = observer(() => {
 
     // if (isBothSubscribed) {
     //   PagesStore.setActivePage(PagesEnum.NEARLY_READY);
-    //   navigate(RouterPath.NEARLY_READY);
+    //   navigate(RouterPathEnum.NEARLY_READY);
     // } else {
     //   handleNextPage();
     // }
 
     PagesStore.setActivePage(PagesEnum.NEARLY_READY);
-    navigate(RouterPath.NEARLY_READY);
+    navigate(RouterPathEnum.NEARLY_READY);
   };
 
   useEffect(() => {

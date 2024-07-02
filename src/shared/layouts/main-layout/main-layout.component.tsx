@@ -7,7 +7,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { RouterPath } from 'app/providers';
+import { RouterPathEnum } from 'app/providers';
 import bgImage from 'app/public/img/background.png';
 import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
@@ -35,7 +35,7 @@ export const MainLayout: FC<ILayoutProps> = observer(({ prevPage }) => {
 
   const handleClickAdmin = () => {
     PagesStore.setActivePage(PagesEnum.ADMIN);
-    navigate(RouterPath.ADMIN);
+    navigate(RouterPathEnum.ADMIN);
   };
 
   useEffect(() => {

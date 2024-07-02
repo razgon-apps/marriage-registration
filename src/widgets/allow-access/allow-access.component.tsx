@@ -6,7 +6,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { RouterPath } from 'app/providers';
+import { RouterPathEnum } from 'app/providers';
 import art from 'app/public/img/pages/page-2/art.png';
 import story from 'app/public/img/story.png';
 import { PagesEnum } from 'app/store/pages-store';
@@ -30,7 +30,7 @@ export const AllowAccess: FC = observer(() => {
   const [checkedAccessHaveFun, setCheckedAccessHaveFun] = useState(true);
 
   const handleClick = () => {
-    navigate(RouterPath.CREATE);
+    navigate(RouterPathEnum.CREATE);
     PagesStore.setActivePage(PagesEnum.CREATE);
   };
 
