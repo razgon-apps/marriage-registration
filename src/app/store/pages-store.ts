@@ -59,6 +59,10 @@ export class PagesStore {
     this.data[pageName] = data;
   };
 
+  setPageData = (data: IPagesData) => {
+    this.data = data;
+  };
+
   resetStore = () => {
     this.activePage = PagesEnum.HOME;
     this.loading = false;
@@ -69,6 +73,8 @@ export class PagesStore {
       loading: observable,
       activePage: observable,
       setActivePage: action,
+      setCurrentPageData: action,
+      setPageData: action,
       resetStore: action,
     });
   }

@@ -26,39 +26,37 @@ export const AllowAccess: FC = observer(() => {
   const { UserStore, PagesStore } = useStores();
   const navigate = useNavigate();
   const [checkedAccessPhotoInAlbum, setCheckedAccessPhotoInAlbum] =
-    useState(true);
-  const [checkedAccessHaveFun, setCheckedAccessHaveFun] = useState(true);
+    useState(false);
+  const [checkedAccessHaveFun, setCheckedAccessHaveFun] = useState(false);
 
   const handleClick = () => {
     navigate(RouterPathEnum.CREATE);
     PagesStore.setActivePage(PagesEnum.CREATE);
   };
 
-  const getAccessAnfPosting = async () => {
-    const token = await getUserToken('wall,photos,friends');
-    console.error('test123456');
-    console.log('test1');
+  const getAccessAnfPosting = async (token: string) => {
     if (token) {
-      UserStore.setUserToken(token);
-      console.log('test666');
       try {
-        await postPhotoOnWall(story, token);
+        const res = await postPhotoOnWall(story, token);
       } catch (e) {
         console.warn('handleAction postPhotoOnWall', e);
       }
     } else {
-      getAccessAnfPosting();
+      getAccessAnfPosting(token);
     }
-
-    return token;
   };
 
   const handleChangeAccessPhotoInAlbum = useCallback(
     async (event: React.SyntheticEvent<HTMLInputElement>) => {
-      const token = await getAccessAnfPosting();
+      const token = await getUserToken('wall,photos,friends');
+      UserStore.setUserToken(token);
+
+      await getAccessAnfPosting(token);
 
       if (token) {
-        setCheckedAccessPhotoInAlbum(event.currentTarget.checked);
+        setCheckedAccessPhotoInAlbum(true);
+      } else {
+        setCheckedAccessPhotoInAlbum(false);
       }
     },
     [],

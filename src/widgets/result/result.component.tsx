@@ -24,8 +24,6 @@ export const Result = observer(() => {
     base64: string;
   } | null>(null);
 
-  console.log('Result UserStore', toJS(UserStore));
-
   const handleImageDrawn = (data: {
     file: File;
     blob: Blob;
@@ -36,13 +34,11 @@ export const Result = observer(() => {
 
   const handleClickSend = () => {
     shareLink();
-    console.log('handleClick');
   };
 
   const handleClickShareStory = async () => {
     const linkPhoto = await uploadImage(imageData?.file as File);
     sharingStory(linkPhoto);
-    console.log('handleClick');
   };
 
   return (

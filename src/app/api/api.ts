@@ -1,56 +1,26 @@
 import axios from 'axios';
 
+import {
+  IGroup,
+  IPageData,
+  IPagesData,
+  PagesEnum,
+} from 'app/store/pages-store';
+import { APP_ID } from 'shared/constants';
+
 import { BASE_URL } from './api.constants';
+import { IFullResponse } from './api.model';
 
-// import { IGroups } from '../stores/types/UserStoreType';
-// import { NAME_PROJECT } from '../utils/constants';
-
-export const addApp = async (appName: string) => {
+export const setPayload = async (pageName: PagesEnum, payload: IPageData) => {
   return await axios({
     method: 'post',
-    url: `${BASE_URL}/app/add-app`,
-    data: { name: appName },
+    url: `${BASE_URL}/set-app`,
+    data: { payload, appId: APP_ID, pageName },
   });
 };
 
-// export const addUserInSubscription = async (payload: IAddUserInSubscriptionPayload) => {
-//   return await axios({
-//     method: 'post',
-//     url: `${BASE_URL}/noty/add-user`,
-//     data: payload
-//   });
-// };
-
-// export const getHoroscopeToday = async () => {
-//   return await axios({
-//     url: `${BASE_URL}/horoscope/get-horoscope?appName=${NAME_PROJECT}`
-//   });
-// };
-
-// export const getAllHoroscopes = async () => {
-//   return await axios({
-//     url: `${BASE_URL}/horoscope/get-horoscopes?appName=${NAME_PROJECT}`
-//   });
-// };
-
-// export const setAllHoroscopes = async (payload: ISetAllHoroscopesPayload) => {
-//   return await axios({
-//     method: 'post',
-//     url: `${BASE_URL}/horoscope/set-horoscope`,
-//     data: { ...payload, appName: NAME_PROJECT }
-//   });
-// };
-
-// export const setPayload = async (payload: IGroups) => {
-//   return await axios({
-//     method: 'post',
-//     url: `${BASE_URL}/payload/set-payload`,
-//     data: { payload, appId: NAME_PROJECT },
-//   });
-// };
-
-// export const getPayload = async () => {
-//   return await axios({
-//     url: `${BASE_URL}/payload/get-payload?appName=${NAME_PROJECT}`
-//   });
-// };
+export const getPayload = async (): Promise<IFullResponse<IPagesData>> => {
+  return axios({
+    url: `${BASE_URL}/get-app/${APP_ID}`,
+  });
+};

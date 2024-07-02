@@ -7,6 +7,7 @@ import { showNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { z } from 'zod';
 
+import { setPayload } from 'app/api';
 import { IPageData, PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { TextFieldInput } from 'shared/components/fields';
@@ -42,18 +43,36 @@ export const LoadingPanel = observer(() => {
   const handleSubmit = useCallback(async () => {
     const payload: IPageData = {
       group1: {
-        id: Number(form.values.group1.id),
+        id: form.values.group1.id,
         isSubscriptionToMessages: false,
       },
       group2: {
-        id: Number(form.values.group2.id),
+        id: form.values.group2.id,
         isSubscriptionToMessages: true,
       },
     };
 
-    PagesStore.setCurrentPageData(PagesEnum.LOADING, payload);
+    try {
+      const { data } = await setPayload(PagesEnum.LOADING, payload);
 
-    console.log('LoadingPanel payload', payload);
+      if (data && data.success) {
+        PagesStore.setCurrentPageData(PagesEnum.LOADING, payload);
+
+        showNotification({
+          title: 'Ссылки обновлены!',
+          message: '',
+          autoClose: 10_000,
+          color: data.success ? 'green' : 'red',
+        });
+      }
+    } catch (e) {
+      showNotification({
+        title: 'Ошибка!',
+        message: '',
+        autoClose: 2_000,
+        color: 'red',
+      });
+    }
   }, [form]);
 
   return (

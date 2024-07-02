@@ -12,6 +12,7 @@ import bgImage from 'app/public/img/background.png';
 import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { DefaultButton } from 'shared/components';
+import { getUserPlatform } from 'shared/utils';
 
 import { useStyles } from './styles';
 
@@ -37,25 +38,6 @@ export const MainLayout: FC<ILayoutProps> = observer(({ prevPage }) => {
     PagesStore.setActivePage(PagesEnum.ADMIN);
     navigate(RouterPathEnum.ADMIN);
   };
-
-  useEffect(() => {
-    (async () => {
-      // try {
-      //   const { data } = await getPayload();
-
-      //   if (data && data.success) {
-      //     UserStore.setGroups(data.message);
-      //   }
-      // } catch (e) {
-      //   console.warn('getPayload ERR', e);
-      // }
-
-      const user = await bridge.send('VKWebAppGetUserInfo');
-      localStorage.setItem('userInfo', JSON.stringify(user));
-
-      UserStore.setUserInfo(user);
-    })();
-  }, []);
 
   return (
     <Box className={classes.root}>

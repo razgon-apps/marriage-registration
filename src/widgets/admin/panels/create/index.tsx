@@ -4,9 +4,11 @@ import { Button, SimpleGrid } from '@mantine/core';
 import { FormErrors, useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { z } from 'zod';
 
+import { setPayload } from 'app/api';
 import { IPageData, PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { TextFieldInput } from 'shared/components/fields';
@@ -42,38 +44,36 @@ export const CreatePanel = observer(() => {
   const handleSubmit = useCallback(async () => {
     const payload: IPageData = {
       group1: {
-        id: Number(form.values.group1.id),
+        id: form.values.group1.id,
         isSubscriptionToMessages: false,
       },
       group2: {
-        id: Number(form.values.group2.id),
+        id: form.values.group2.id,
         isSubscriptionToMessages: true,
       },
     };
 
-    PagesStore.setCurrentPageData(PagesEnum.CREATE, payload);
+    try {
+      const { data } = await setPayload(PagesEnum.CREATE, payload);
 
-    console.log('CreatePanel payload', payload);
+      if (data && data.success) {
+        PagesStore.setCurrentPageData(PagesEnum.CREATE, payload);
 
-    // try {
-    //   const { data } = await setPayload(payload);
-
-    //   if (data) {
-    //     showNotification({
-    //       title: 'Ссылки обновлены!',
-    //       message: '',
-    //       autoClose: 10_000,
-    //       color: data.success ? 'green' : 'red',
-    //     });
-    //   }
-    // } catch (e) {
-    //   showNotification({
-    //     title: 'Ошибка!',
-    //     message: '',
-    //     autoClose: 2_000,
-    //     color: 'red',
-    //   });
-    // }
+        showNotification({
+          title: 'Ссылки обновлены!',
+          message: '',
+          autoClose: 10_000,
+          color: data.success ? 'green' : 'red',
+        });
+      }
+    } catch (e) {
+      showNotification({
+        title: 'Ошибка!',
+        message: '',
+        autoClose: 2_000,
+        color: 'red',
+      });
+    }
   }, [form]);
 
   return (
@@ -105,11 +105,17 @@ export const CreatePanel = observer(() => {
 
 const validateScheme = z.object({
   group1: z.object({
-    id: z.string().regex(numberRegExp, { message: numberRegExpErrorText }),
+    id: z
+      .string()
+      .regex(numberRegExp, { message: numberRegExpErrorText })
+      .nullable(),
     isSubscriptionToMessages: z.boolean(),
   }),
   group2: z.object({
-    id: z.string().regex(numberRegExp, { message: numberRegExpErrorText }),
+    id: z
+      .string()
+      .regex(numberRegExp, { message: numberRegExpErrorText })
+      .nullable(),
     isSubscriptionToMessages: z.boolean(),
   }),
 });

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Box, Image, Space } from '@mantine/core';
 
@@ -14,8 +14,10 @@ import { useStores } from 'app/store/use-stores';
 import { PlatformEnum } from 'app/store/user-store';
 import { CountdownTimer, ScrollContainer } from 'shared/components';
 import { DefaultButton } from 'shared/components/default-button';
+import { checkSubscription } from 'shared/utils';
 
 import { GroupItem } from './group-item';
+import { countNonEmptyItems } from './nearly-ready.utils';
 import { useStyles } from './styles';
 
 export const NearlyReady = observer(() => {
@@ -23,7 +25,9 @@ export const NearlyReady = observer(() => {
   const { UserStore, PagesStore } = useStores();
   const navigate = useNavigate();
   const [subscriptionsCount, setSubscriptionsCount] = useState(0);
-  const canContinue = subscriptionsCount >= 5;
+  const canContinue =
+    subscriptionsCount >=
+    countNonEmptyItems(PagesStore.data[PagesEnum.NEARLY_READY]?.groups);
   const [isTimerExpired, setIsTimerExpired] = useState(false);
 
   const artize =
@@ -36,19 +40,42 @@ export const NearlyReady = observer(() => {
       ? { height: 250, width: 350 }
       : { height: 200, width: 300 };
 
-  const handleClick = () => {
-    navigate(RouterPathEnum.RESULT);
-    PagesStore.setActivePage(PagesEnum.RESULT);
+  const handleClick = async () => {
+    const group1Id = Number(
+      PagesStore.data[PagesEnum.NEARLY_READY]?.group1?.id,
+    );
+    const group2Id = Number(
+      PagesStore.data[PagesEnum.NEARLY_READY]?.group2?.id,
+    );
+
+    const isBothSubscribed = await checkSubscription(group1Id, group2Id);
+
+    if (group1Id || group2Id) {
+      if (isBothSubscribed) {
+        navigate(RouterPathEnum.RESULT);
+        PagesStore.setActivePage(PagesEnum.RESULT);
+      } else {
+        handleClick();
+      }
+    } else {
+      navigate(RouterPathEnum.RESULT);
+      PagesStore.setActivePage(PagesEnum.RESULT);
+    }
   };
 
   const handleTimerEnd = useCallback(() => {
     setIsTimerExpired(true);
-    // Действия, которые нужно выполнить по завершении таймера
   }, []);
 
   const handleSubscriptionChange = () => {
-    setSubscriptionsCount((prevCount) => prevCount + 1); // Увеличиваем количество подписок
+    setSubscriptionsCount((prevCount) => prevCount + 1);
   };
+
+  const filteredGroups = PagesStore.data[
+    PagesEnum.NEARLY_READY
+  ]?.groups?.filter(
+    (item) => item.id !== 0 && item.name !== '' && item.imgUrl !== '',
+  );
 
   const footerButton = (
     <DefaultButton
@@ -57,11 +84,17 @@ export const NearlyReady = observer(() => {
       onClick={handleClick}
       mb={30}
       mt={20}
-      disabled={!isTimerExpired && !canContinue}
+      disabled={
+        countNonEmptyItems(PagesStore.data[PagesEnum.NEARLY_READY]?.groups) ===
+        0
+          ? !isTimerExpired
+          : !isTimerExpired && !canContinue
+      }
     >
       Продолжить
     </DefaultButton>
   );
+
   return (
     <ScrollContainer className={classes.scroll}>
       <Box className={cn(classes.root)}>
@@ -88,46 +121,23 @@ export const NearlyReady = observer(() => {
           />
         </Box>
 
-        {/* <Box className={classes.groups}>
-          <GroupItem
-            imgUrl="https://img.freepik.com/free-photo/close-up-on-kitten-surrounded-by-flowers_23-2150782329.jpg"
-            groupId={50477612}
-            name="Anna Porter"
-            className={classes.groupItem}
-            onSubscriptionChange={handleSubscriptionChange}
-          />
-          <GroupItem
-            imgUrl="https://img.freepik.com/free-photo/close-up-on-kitten-surrounded-by-flowers_23-2150782329.jpg"
-            groupId={50477612}
-            name="Anna Porter"
-            className={classes.groupItem}
-            onSubscriptionChange={handleSubscriptionChange}
-          />
-          <GroupItem
-            imgUrl="https://img.freepik.com/free-photo/close-up-on-kitten-surrounded-by-flowers_23-2150782329.jpg"
-            groupId={50477612}
-            name="Anna Porter"
-            className={classes.groupItem}
-            onSubscriptionChange={handleSubscriptionChange}
-          />
-          <GroupItem
-            imgUrl="https://img.freepik.com/free-photo/close-up-on-kitten-surrounded-by-flowers_23-2150782329.jpg"
-            groupId={50477612}
-            name="Anna Porter"
-            className={classes.groupItem}
-            onSubscriptionChange={handleSubscriptionChange}
-          />
-          <GroupItem
-            imgUrl="https://img.freepik.com/free-photo/close-up-on-kitten-surrounded-by-flowers_23-2150782329.jpg"
-            groupId={50477612}
-            name="Anna Porter"
-            className={classes.groupItem}
-            onSubscriptionChange={handleSubscriptionChange}
-          />
-        </Box> */}
+        {Boolean(filteredGroups?.length) && (
+          <Box className={classes.groups}>
+            {filteredGroups?.map((item) => {
+              return (
+                <GroupItem
+                  imgUrl={item?.imgUrl ?? ''}
+                  groupId={Number(item?.id) ?? 0}
+                  name={item?.name ?? ''}
+                  className={classes.groupItem}
+                  onSubscriptionChange={handleSubscriptionChange}
+                />
+              );
+            })}
+          </Box>
+        )}
 
-        {/* TODO: Добавить првоерку на кол-во пабликов, если их 0 то отображаем обычный футер */}
-        {canContinue ? (
+        {PagesStore.data[PagesEnum.NEARLY_READY]?.groups?.length ? (
           footerButton
         ) : (
           <Box

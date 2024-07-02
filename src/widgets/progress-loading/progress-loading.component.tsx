@@ -23,25 +23,26 @@ export const ProgressLoading = observer(() => {
   const [step, setStep] = useState<number>(0);
 
   const handleNextPage = async () => {
-    // const group1Id = Number(PagesStore.data[PagesEnum.LOADING]?.group1.id);
-    // const group2Id = Number(PagesStore.data[PagesEnum.LOADING]?.group2.id);
+    const group1Id = Number(PagesStore.data[PagesEnum.LOADING]?.group1.id);
+    const group2Id = Number(PagesStore.data[PagesEnum.LOADING]?.group2.id);
 
-    // const isBothSubscribed = await checkSubscription(group1Id, group2Id);
+    const isBothSubscribed = await checkSubscription(group1Id, group2Id);
 
-    // if (isBothSubscribed) {
-    //   PagesStore.setActivePage(PagesEnum.NEARLY_READY);
-    //   navigate(RouterPathEnum.NEARLY_READY);
-    // } else {
-    //   handleNextPage();
-    // }
-
-    PagesStore.setActivePage(PagesEnum.NEARLY_READY);
-    navigate(RouterPathEnum.NEARLY_READY);
+    if (group1Id || group2Id) {
+      if (isBothSubscribed) {
+        PagesStore.setActivePage(PagesEnum.NEARLY_READY);
+        navigate(RouterPathEnum.NEARLY_READY);
+      } else {
+        handleNextPage();
+      }
+    } else {
+      PagesStore.setActivePage(PagesEnum.NEARLY_READY);
+      navigate(RouterPathEnum.NEARLY_READY);
+    }
   };
 
   useEffect(() => {
     if (step === loadingSteps.length - 2) {
-      // Вызываем handleNextPage на предпоследнем шаге
       handleNextPage();
     } else if (step < loadingSteps.length - 1) {
       const interval = setInterval(() => {

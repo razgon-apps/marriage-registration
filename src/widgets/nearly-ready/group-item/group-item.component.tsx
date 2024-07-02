@@ -24,12 +24,12 @@ export const GroupItem: FC<IGroupItem> = observer(
 
     const handleSubscribe = async () => {
       try {
-        const result = await addGroup(groupId); // Вызываем функцию для подписки и ждем результата
+        const result = await addGroup(groupId);
 
         if (result) {
-          setSubscribed(true); // Устанавливаем состояние подписки в true
+          setSubscribed(true);
           if (onSubscriptionChange) {
-            onSubscriptionChange(); // Вызываем функцию обновления состояния подписок в родительском компоненте
+            onSubscriptionChange();
           }
         } else {
           console.log('Ошибка при подписке');

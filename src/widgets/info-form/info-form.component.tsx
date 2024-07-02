@@ -50,8 +50,6 @@ export const InfoForm: React.FC = observer(() => {
   });
 
   const handleSubmit = useCallback(async () => {
-    console.log('form.values', form.values);
-
     InfoFormStore.setData({
       registrationPlace: form.values.registrationPlace,
       groom: form.values.groom,

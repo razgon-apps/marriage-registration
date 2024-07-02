@@ -25,20 +25,22 @@ export const Create = observer(() => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    // const group1Id = Number(PagesStore.data[PagesEnum.CREATE]?.group1.id);
-    // const group2Id = Number(PagesStore.data[PagesEnum.CREATE]?.group2.id);
+    const group1Id = Number(PagesStore.data[PagesEnum.CREATE]?.group1?.id);
+    const group2Id = Number(PagesStore.data[PagesEnum.CREATE]?.group2?.id);
 
-    // const isBothSubscribed = await checkSubscription(group1Id, group2Id);
+    const isBothSubscribed = await checkSubscription(group1Id, group2Id);
 
-    // if (isBothSubscribed) {
-    //   navigate(RouterPathEnum.INFO);
-    //   PagesStore.setActivePage(PagesEnum.INFO);
-    // } else {
-    //   handleClick();
-    // }
-
-    navigate(RouterPathEnum.INFO);
-    PagesStore.setActivePage(PagesEnum.INFO);
+    if (group1Id || group2Id) {
+      if (isBothSubscribed) {
+        navigate(RouterPathEnum.INFO);
+        PagesStore.setActivePage(PagesEnum.INFO);
+      } else {
+        handleClick();
+      }
+    } else {
+      navigate(RouterPathEnum.INFO);
+      PagesStore.setActivePage(PagesEnum.INFO);
+    }
   };
 
   return (
