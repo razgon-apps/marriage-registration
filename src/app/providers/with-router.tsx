@@ -12,10 +12,11 @@ import LoadingPage from 'pages/loading';
 import NearlyReadyPage from 'pages/nearly-ready';
 import NotFoundPage from 'pages/not-found';
 import ResultPage from 'pages/result';
+import { ROUTE_URL } from 'shared/constants';
 import MainLayout from 'shared/layouts/main-layout';
 
 export enum RouterPathEnum {
-  HOME = `/marriage-registration`,
+  HOME = '',
   ALLOW_ACCESS = `/${PagesEnum.ALLOW_ACCESS}`,
   CREATE = `/${PagesEnum.CREATE}`,
   INFO = `/${PagesEnum.INFO}`,
@@ -25,41 +26,52 @@ export enum RouterPathEnum {
   ADMIN = `/${PagesEnum.ADMIN}`,
 }
 
+export const RouterPath = {
+  HOME: `/marriage-registration`,
+  ALLOW_ACCESS: `${ROUTE_URL}/${PagesEnum.ALLOW_ACCESS}`,
+  CREATE: `${ROUTE_URL}/${PagesEnum.CREATE}`,
+  INFO: `${ROUTE_URL}/${PagesEnum.INFO}`,
+  LOADING: `${ROUTE_URL}/${PagesEnum.LOADING}`,
+  NEARLY_READY: `${ROUTE_URL}/${PagesEnum.NEARLY_READY}`,
+  RESULT: `${ROUTE_URL}/${PagesEnum.RESULT}`,
+  ADMIN: `${ROUTE_URL}/${PagesEnum.ADMIN}`,
+};
+
 export const Router = () => {
   const router = useRoutes([
     {
       element: <MainLayout />,
       children: [
         {
-          path: RouterPathEnum.HOME,
+          path: RouterPath.HOME,
           element: <HomePage />,
         },
         {
-          path: RouterPathEnum.ALLOW_ACCESS,
+          path: RouterPath.ALLOW_ACCESS,
           element: <AllowAccessPage />,
         },
         {
-          path: RouterPathEnum.CREATE,
+          path: RouterPath.CREATE,
           element: <CreatePage />,
         },
         {
-          path: RouterPathEnum.INFO,
+          path: RouterPath.INFO,
           element: <InfoPage />,
         },
         {
-          path: RouterPathEnum.LOADING,
+          path: RouterPath.LOADING,
           element: <LoadingPage />,
         },
         {
-          path: RouterPathEnum.NEARLY_READY,
+          path: RouterPath.NEARLY_READY,
           element: <NearlyReadyPage />,
         },
         {
-          path: RouterPathEnum.RESULT,
+          path: RouterPath.RESULT,
           element: <ResultPage />,
         },
         {
-          path: RouterPathEnum.ADMIN,
+          path: RouterPath.ADMIN,
           element: <AdminPage />,
         },
       ],

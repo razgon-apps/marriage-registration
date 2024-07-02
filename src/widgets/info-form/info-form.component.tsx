@@ -7,7 +7,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { RouterPathEnum } from 'app/providers';
+import { RouterPath } from 'app/providers';
 import art from 'app/public/img/pages/page-4/art.png';
 import { IInfoForm, IPersonForm } from 'app/store/info-form-store';
 import { PagesEnum } from 'app/store/pages-store';
@@ -58,7 +58,7 @@ export const InfoForm: React.FC = observer(() => {
       bride: form.values.bride,
     });
     PagesStore.setActivePage(PagesEnum.LOADING);
-    navigate(RouterPathEnum.LOADING);
+    navigate(RouterPath.LOADING);
   }, [form]);
 
   return (

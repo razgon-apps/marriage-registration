@@ -6,7 +6,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { RouterPathEnum } from 'app/providers';
+import { RouterPath } from 'app/providers';
 import art from 'app/public/img/pages/page-1/art.png';
 import text from 'app/public/img/pages/page-1/text.png';
 import { PagesEnum } from 'app/store/pages-store';
@@ -24,7 +24,7 @@ export const StartStep: FC = observer(() => {
 
   const handleClick = () => {
     PagesStore.setActivePage(PagesEnum.ALLOW_ACCESS);
-    navigate(RouterPathEnum.ALLOW_ACCESS);
+    navigate(RouterPath.ALLOW_ACCESS);
   };
 
   return (

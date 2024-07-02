@@ -4,7 +4,7 @@ import { Box, Button, Text } from '@mantine/core';
 
 import { useNavigate } from 'react-router-dom';
 
-import { RouterPathEnum } from 'app/providers';
+import { RouterPath } from 'app/providers';
 import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { NAME_PROJECT } from 'shared/constants';
@@ -27,7 +27,7 @@ export const Admin = () => {
   );
 
   const handleBackButton = () => {
-    navigate(RouterPathEnum.HOME);
+    navigate(RouterPath.HOME);
     PagesStore.setActivePage(PagesEnum.HOME);
   };
 
