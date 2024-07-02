@@ -15,7 +15,7 @@ import ResultPage from 'pages/result';
 import MainLayout from 'shared/layouts/main-layout';
 
 export enum RouterPathEnum {
-  HOME = `/`,
+  HOME = `/marriage-registration`,
   ALLOW_ACCESS = `/${PagesEnum.ALLOW_ACCESS}`,
   CREATE = `/${PagesEnum.CREATE}`,
   INFO = `/${PagesEnum.INFO}`,
@@ -31,7 +31,7 @@ export const Router = () => {
       element: <MainLayout />,
       children: [
         {
-          index: true,
+          path: RouterPathEnum.HOME,
           element: <HomePage />,
         },
         {

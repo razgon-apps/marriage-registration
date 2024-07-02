@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    base: '/marriage-registration/',
     plugins: [react(), tsconfigPaths(), mkcert()],
     define: {
       'process.env.IMGBB_API_KEY': JSON.stringify(env.IMGBB_API_KEY),
