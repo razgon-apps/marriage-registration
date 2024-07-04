@@ -56,7 +56,11 @@ export const Result = observer(() => {
         [classes.mobile]: UserStore.platform !== PlatformEnum.WEB,
       })}
     >
-      <Box className={classes.header}>
+      <Box
+        className={cn(classes.header, {
+          [classes.mobileHeader]: UserStore.platform !== PlatformEnum.WEB,
+        })}
+      >
         <Text size="xl" ml={21} fw={600} mb={5}>
           Ваше свидетельство готово!
         </Text>

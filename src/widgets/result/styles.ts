@@ -21,6 +21,9 @@ export const useStyles = createStyles((theme) => ({
     flexDirection: 'column',
     textAlign: 'center',
   },
+  mobileHeader: {
+    width: '80%',
+  },
   footer: {
     position: 'fixed',
     zIndex: 100,
@@ -34,7 +37,7 @@ export const useStyles = createStyles((theme) => ({
     gap: 16,
   },
   mobileFooter: {
-    bottom: '70px !important',
+    bottom: '20px !important',
   },
   loading: {
     display: 'flex',

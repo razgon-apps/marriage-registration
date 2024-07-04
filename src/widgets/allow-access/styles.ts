@@ -32,7 +32,7 @@ export const useStyles = createStyles((theme) => ({
     justifyContent: 'center',
   },
   mobileFooter: {
-    bottom: '70px',
+    bottom: '20px',
   },
   checkboxContainer: {
     display: 'flex',

@@ -46,7 +46,7 @@ export const useStyles = createStyles((theme) => ({
     justifyContent: 'center',
   },
   mobileFooter: {
-    bottom: '70px !important',
+    bottom: '20px !important',
   },
   scroll: {
     height: `100vh`,
