@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { AspectRatio, Box, Overlay, Text } from '@mantine/core';
+import { AspectRatio, Box, Loader, Overlay, Text } from '@mantine/core';
 
 import cn from 'classnames';
 import { toJS } from 'mobx';
@@ -23,6 +23,7 @@ export const Result = observer(() => {
     file: File;
     base64: string;
   } | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const handleImageDrawn = (data: {
     file: File;
@@ -41,6 +42,14 @@ export const Result = observer(() => {
     sharingStory(linkPhoto);
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3_000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Box
       className={cn(classes.root, {
@@ -51,36 +60,49 @@ export const Result = observer(() => {
         <Text size="xl" ml={21} fw={600} mb={5}>
           Ваше свидетельство готово!
         </Text>
-        <Text size="l" ml={21} fw={500} c="#5F5F5F" lh="19px">
+        <Text
+          size="l"
+          ml={21}
+          fw={500}
+          c="#5F5F5F"
+          lh="19px"
+          mb={UserStore.platform !== PlatformEnum.WEB ? 30 : 10}
+        >
           Вы можете отправить его кому-либо или поделиться в истории
         </Text>
       </Box>
 
-      <AspectRatio
-        ratio={16 / 9}
-        maw={320}
-        mx="auto"
-        pos="relative"
-        mt={UserStore.platform !== PlatformEnum.WEB ? 80 : 10}
-      >
-        <CanvasImage
-          formData={InfoFormStore.data}
-          imageUrl={templateImg}
-          onImageDrawn={handleImageDrawn}
-        />
-        <Overlay
-          gradient="linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(235, 243, 250, 1) 100%)"
-          opacity={0.95}
-          style={{
-            top: 'auto',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '50%',
-            zIndex: 2,
-          }}
-        />
-      </AspectRatio>
+      {loading ? (
+        <Box className={classes.loading} h="200px">
+          <Loader size="lg" />
+        </Box>
+      ) : (
+        <AspectRatio
+          ratio={16 / 9}
+          maw={320}
+          mx="auto"
+          pos="relative"
+          mb={UserStore.platform !== PlatformEnum.WEB ? 80 : 10}
+        >
+          <CanvasImage
+            formData={InfoFormStore.data}
+            imageUrl={templateImg}
+            onImageDrawn={handleImageDrawn}
+          />
+          <Overlay
+            gradient="linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(235, 243, 250, 1) 100%)"
+            opacity={0.95}
+            style={{
+              top: 'auto',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '50%',
+              zIndex: 2,
+            }}
+          />
+        </AspectRatio>
+      )}
 
       <Box
         className={cn(classes.footer, {
@@ -95,7 +117,11 @@ export const Result = observer(() => {
           Отправить заявление человеку
         </DefaultButton>
 
-        <DefaultButton onClick={handleClickShareStory} w={320}>
+        <DefaultButton
+          disabled={loading}
+          onClick={handleClickShareStory}
+          w={320}
+        >
           Поделиться в истории
         </DefaultButton>
       </Box>

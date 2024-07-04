@@ -11,7 +11,6 @@ export const useStyles = createStyles((theme) => ({
   },
   mobile: {
     justifyContent: 'center',
-    height: 'calc(100% - 134px)',
   },
   header: {
     height: 'auto',
@@ -36,5 +35,12 @@ export const useStyles = createStyles((theme) => ({
   },
   mobileFooter: {
     bottom: '70px !important',
+  },
+  loading: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    textAlign: 'center',
   },
 }));

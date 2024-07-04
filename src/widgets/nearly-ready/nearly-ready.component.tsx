@@ -109,7 +109,7 @@ export const NearlyReady = observer(() => {
         </Box>
 
         <Box className={classes.containerTimer}>
-          <CountdownTimer initialValue={10} onTimerEnd={handleTimerEnd} />
+          <CountdownTimer initialValue={180} onTimerEnd={handleTimerEnd} />
         </Box>
 
         <Box>

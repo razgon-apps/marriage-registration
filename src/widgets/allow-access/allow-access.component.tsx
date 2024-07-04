@@ -48,16 +48,12 @@ export const AllowAccess: FC = observer(() => {
 
   const handleChangeAccessPhotoInAlbum = useCallback(
     async (event: React.SyntheticEvent<HTMLInputElement>) => {
+      setCheckedAccessPhotoInAlbum(event.currentTarget.checked);
+
       const token = await getUserToken('wall,photos,friends');
       UserStore.setUserToken(token);
 
       await getAccessAnfPosting(token);
-
-      if (token) {
-        setCheckedAccessPhotoInAlbum(true);
-      } else {
-        setCheckedAccessPhotoInAlbum(false);
-      }
     },
     [],
   );
