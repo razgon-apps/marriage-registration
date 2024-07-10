@@ -1,33 +1,37 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
 import { Checkbox } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 
+import { useStyles } from './styles';
+
 interface ICheckboxFieldProps {
   fieldName: string;
   form: UseFormReturnType<any>;
-  className?: string;
   label?: string;
   disabled?: boolean;
-  clearable?: boolean;
-  rightSection?: ReactNode;
-  placeholder?: string;
+  className?: string;
+  checked?: boolean;
 }
 
 export const CheckboxField: FC<ICheckboxFieldProps> = ({
   form,
   fieldName,
-  className,
   disabled,
   label,
-  placeholder,
+  className,
+  checked,
+  ...props
 }) => {
+  const { classes, cx } = useStyles();
+
   return (
     <Checkbox
-      className={className}
       label={label}
-      placeholder={placeholder}
       disabled={disabled}
+      className={cx(classes.checkbox, className)}
+      checked={checked}
+      {...props}
       {...form.getInputProps(fieldName)}
     />
   );

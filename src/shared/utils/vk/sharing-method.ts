@@ -159,7 +159,11 @@ export async function createAndShareStory(
   }
 }
 
-export async function postPhotoOnWall(linkPhoto: string, ACCESS_TOKEN: string) {
+export async function postPhotoOnWall(
+  linkPhoto: string,
+  ACCESS_TOKEN: string,
+  sharingText?: string,
+) {
   const blob = await convertToLocalFileInBlob(linkPhoto);
   let token = ACCESS_TOKEN;
 
@@ -175,7 +179,7 @@ export async function postPhotoOnWall(linkPhoto: string, ACCESS_TOKEN: string) {
       method: 'photos.createAlbum',
       params: {
         title: NAME_PROJECT,
-        description: SHARING_TEXT,
+        description: sharingText ?? SHARING_TEXT,
         v: '5.131',
         access_token: token,
       },
@@ -209,7 +213,7 @@ export async function postPhotoOnWall(linkPhoto: string, ACCESS_TOKEN: string) {
           hash: result.hash,
           photos_list: result.photos_list,
           server: result.server,
-          caption: SHARING_TEXT,
+          caption: sharingText ?? SHARING_TEXT,
         },
       });
     } catch (error) {

@@ -19,9 +19,12 @@ export interface IGroup {
 }
 
 export interface IPageData {
-  group1: IGroup;
-  group2: IGroup;
+  group1?: IGroup;
+  group2?: IGroup;
   groups?: IGroup[];
+  sharingText?: string;
+  checkedAccessPhotoInAlbum?: boolean;
+  checkedAccessHaveFun?: boolean;
 }
 
 export interface IPagesData {

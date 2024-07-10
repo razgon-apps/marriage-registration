@@ -144,58 +144,58 @@ export const CanvasImage: React.FC<CanvasImageProps> = ({
           } else {
             ctx.fillText(
               formData?.groom?.surname ?? '',
-              (95 * width) / width + 300,
+              (125 * width) / width + 300,
               (85 * height) / height + 480,
             );
             ctx.fillText(
               formData?.groom?.name ?? '',
-              (95 * width) / width + 300,
+              (110 * width) / width + 300,
               (120 * height) / height + 480,
             );
             ctx.fillText(
               formData?.groom?.patronymic ?? '',
-              (95 * width) / width + 300,
+              (125 * width) / width + 300,
               (155 * height) / height + 480,
             );
             ctx.fillText(
               formData?.groom?.citizenship ?? '',
-              (95 * width) / width + 300,
+              (160 * width) / width + 300,
               (185 * height) / height + 480,
             );
             ctx.fillText(
               formData?.groom?.birthDate ?? '',
-              (250 * width) / width + 300,
+              (320 * width) / width + 300,
               (215 * height) / height + 480,
             );
 
             ctx.fillText(
               formData?.bride?.surname ?? '',
-              (95 * width) / width + 300,
+              (110 * width) / width + 300,
               (85 * height) / height + 750,
             );
             ctx.fillText(
               formData?.bride?.name ?? '',
-              (95 * width) / width + 300,
+              (110 * width) / width + 300,
               (120 * height) / height + 750,
             );
             ctx.fillText(
               formData?.bride?.patronymic ?? '',
-              (95 * width) / width + 300,
+              (110 * width) / width + 300,
               (155 * height) / height + 750,
             );
             ctx.fillText(
               formData?.bride?.citizenship ?? '',
-              (95 * width) / width + 300,
+              (160 * width) / width + 300,
               (185 * height) / height + 750,
             );
             ctx.fillText(
               formData?.bride?.birthDate ?? '',
-              (250 * width) / width + 300,
+              (320 * width) / width + 300,
               (215 * height) / height + 750,
             );
             ctx.fillText(
               formData?.registrationPlace ?? '',
-              (270 * width) / width + 300,
+              (290 * width) / width + 300,
               (215 * height) / height + 1080,
             );
           }

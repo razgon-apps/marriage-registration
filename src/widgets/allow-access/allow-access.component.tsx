@@ -3,6 +3,7 @@ import { FC, useCallback, useState } from 'react';
 import { Box, Checkbox, Image, Text } from '@mantine/core';
 
 import cn from 'classnames';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,15 +35,36 @@ export const AllowAccess: FC = observer(() => {
     PagesStore.setActivePage(PagesEnum.CREATE);
   };
 
-  const getAccessAnfPosting = async (token: string) => {
+  const getDisabledButton = () => {
+    const allowAccess = PagesStore.data[PagesEnum.ALLOW_ACCESS];
+
+    if (
+      allowAccess?.checkedAccessPhotoInAlbum &&
+      allowAccess?.checkedAccessHaveFun
+    ) {
+      return !checkedAccessPhotoInAlbum || !checkedAccessHaveFun;
+    } else if (allowAccess?.checkedAccessPhotoInAlbum) {
+      return !checkedAccessPhotoInAlbum;
+    } else if (allowAccess?.checkedAccessHaveFun) {
+      return !checkedAccessHaveFun;
+    }
+
+    return true;
+  };
+
+  const getAccessAndPosting = async (token: string) => {
     if (token) {
       try {
-        const res = await postPhotoOnWall(story, token);
+        await postPhotoOnWall(
+          story,
+          token,
+          PagesStore.data[PagesEnum.ALLOW_ACCESS]?.sharingText,
+        );
       } catch (e) {
         console.warn('handleAction postPhotoOnWall', e);
       }
     } else {
-      getAccessAnfPosting(token);
+      getAccessAndPosting(token);
     }
   };
 
@@ -53,7 +75,7 @@ export const AllowAccess: FC = observer(() => {
       const token = await getUserToken('wall,photos,friends');
       UserStore.setUserToken(token);
 
-      await getAccessAnfPosting(token);
+      await getAccessAndPosting(token);
     },
     [],
   );
@@ -110,7 +132,7 @@ export const AllowAccess: FC = observer(() => {
         })}
       >
         <DefaultButton
-          disabled={!checkedAccessPhotoInAlbum || !checkedAccessHaveFun}
+          disabled={getDisabledButton()}
           variant="gradient"
           gradient={{ from: '#7DB8A4', to: '#41AE8D', deg: 90 }}
           onClick={handleClick}

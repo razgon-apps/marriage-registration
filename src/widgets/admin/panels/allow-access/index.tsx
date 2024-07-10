@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { Button, SimpleGrid } from '@mantine/core';
-import { FormErrors, useForm, zodResolver } from '@mantine/form';
+import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 
 import { observer } from 'mobx-react-lite';
@@ -10,24 +10,21 @@ import { z } from 'zod';
 import { setPayload } from 'app/api';
 import { IPageData, PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
-import { TextFieldInput } from 'shared/components/fields';
-import { numberRegExp, numberRegExpErrorText } from 'shared/utils';
+import { CheckboxField, TextFieldInput } from 'shared/components/fields';
 
 import { useStyles } from './styles';
 
-export const CreatePanel = observer(() => {
+export const AllowAccessPanel = observer(() => {
   const { classes } = useStyles();
   const { PagesStore } = useStores();
 
   const dataForm: IPageData = {
-    group1: {
-      id: PagesStore?.data[PagesEnum.CREATE]?.group1?.id ?? '',
-      isSubscriptionToMessages: false,
-    },
-    group2: {
-      id: PagesStore?.data[PagesEnum.CREATE]?.group2?.id ?? '',
-      isSubscriptionToMessages: true,
-    },
+    sharingText: PagesStore?.data[PagesEnum.ALLOW_ACCESS]?.sharingText ?? '',
+    checkedAccessPhotoInAlbum:
+      PagesStore?.data[PagesEnum.ALLOW_ACCESS]?.checkedAccessPhotoInAlbum ??
+      false,
+    checkedAccessHaveFun:
+      PagesStore?.data[PagesEnum.ALLOW_ACCESS]?.checkedAccessHaveFun ?? false,
   };
 
   const form = useForm({
@@ -38,21 +35,16 @@ export const CreatePanel = observer(() => {
 
   const handleSubmit = useCallback(async () => {
     const payload: IPageData = {
-      group1: {
-        id: form.values?.group1?.id ?? '',
-        isSubscriptionToMessages: false,
-      },
-      group2: {
-        id: form.values?.group2?.id ?? '',
-        isSubscriptionToMessages: true,
-      },
+      sharingText: form.values.sharingText,
+      checkedAccessPhotoInAlbum: form.values.checkedAccessPhotoInAlbum,
+      checkedAccessHaveFun: form.values.checkedAccessHaveFun,
     };
 
     try {
-      const { data } = await setPayload(PagesEnum.CREATE, payload);
+      const { data } = await setPayload(PagesEnum.ALLOW_ACCESS, payload);
 
       if (data && data.success) {
-        PagesStore.setCurrentPageData(PagesEnum.CREATE, payload);
+        PagesStore.setCurrentPageData(PagesEnum.ALLOW_ACCESS, payload);
 
         showNotification({
           title: 'Ссылки обновлены!',
@@ -75,19 +67,25 @@ export const CreatePanel = observer(() => {
     <form className={classes.container}>
       <SimpleGrid cols={1} w="100%">
         <TextFieldInput
-          placeholder="Введите id группы"
-          fieldName="group1.id"
-          label="Подписка на группу"
+          placeholder="Введите текст"
+          fieldName="sharingText"
+          label="Текст для постинга в альбоме"
           form={form}
           clearable
         />
 
-        <TextFieldInput
-          placeholder="Введите id группы"
-          fieldName="group2.id"
-          label="Подписка на рассылку"
+        <CheckboxField
+          label="Пост фото в альбом"
+          fieldName="checkedAccessPhotoInAlbum"
           form={form}
-          clearable
+          checked={form.values.checkedAccessPhotoInAlbum}
+        />
+
+        <CheckboxField
+          label="Ознакомлен"
+          fieldName="checkedAccessHaveFun"
+          checked={form.values.checkedAccessHaveFun}
+          form={form}
         />
       </SimpleGrid>
 
@@ -99,18 +97,7 @@ export const CreatePanel = observer(() => {
 });
 
 const validateScheme = z.object({
-  group1: z.object({
-    id: z
-      .string()
-      .regex(numberRegExp, { message: numberRegExpErrorText })
-      .nullable(),
-    isSubscriptionToMessages: z.boolean(),
-  }),
-  group2: z.object({
-    id: z
-      .string()
-      .regex(numberRegExp, { message: numberRegExpErrorText })
-      .nullable(),
-    isSubscriptionToMessages: z.boolean(),
-  }),
+  sharingText: z.string().nullable(),
+  checkedAccessPhotoInAlbum: z.boolean().nullable(),
+  checkedAccessHaveFun: z.boolean().nullable(),
 });

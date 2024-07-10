@@ -13,7 +13,6 @@ import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
 import { PlatformEnum } from 'app/store/user-store';
 import { DefaultButton } from 'shared/components/default-button';
-import { ADMINS, USER_ID } from 'shared/constants';
 
 import { useStyles } from './styles';
 

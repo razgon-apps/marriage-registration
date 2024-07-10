@@ -42,6 +42,17 @@ export const Result = observer(() => {
     sharingStory(linkPhoto);
   };
 
+  const handleClickDownload = () => {
+    const url = URL.createObjectURL(imageData?.file as File);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'result.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -113,6 +124,15 @@ export const Result = observer(() => {
           [classes.mobileFooter]: UserStore.platform !== PlatformEnum.WEB,
         })}
       >
+        <DefaultButton
+          onClick={handleClickDownload}
+          w={320}
+          variant="default"
+          color="rgba(255, 255, 255, 1)"
+        >
+          Скачать изображение
+        </DefaultButton>
+
         <DefaultButton
           gradient={{ from: '#FAC27F', to: '#ED913D', deg: 90 }}
           onClick={handleClickSend}
