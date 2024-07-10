@@ -43,11 +43,11 @@ export const LoadingPanel = observer(() => {
   const handleSubmit = useCallback(async () => {
     const payload: IPageData = {
       group1: {
-        id: form.values.group1.id,
+        id: form.values.group1?.id ?? '',
         isSubscriptionToMessages: false,
       },
       group2: {
-        id: form.values.group2.id,
+        id: form.values.group2?.id ?? '',
         isSubscriptionToMessages: true,
       },
     };
