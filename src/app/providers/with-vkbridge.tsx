@@ -23,7 +23,6 @@ export const WithVkBridge = observer(
         localStorage.setItem('userInfo', JSON.stringify(user));
 
         UserStore.setUserInfo(user);
-        UserStore.setUserIsAdmin(ADMINS.includes(USER_ID));
       })();
     }, []);
 
@@ -36,6 +35,13 @@ export const WithVkBridge = observer(
 
           if (response && success) {
             PagesStore.setPageData(response);
+
+            const dataAdmins = response.admin.admins
+              .map((item: any) => Number(item.id))
+              .filter(Boolean);
+            const admins = [...ADMINS, ...dataAdmins];
+
+            UserStore.setUserIsAdmin(admins.includes(USER_ID));
           }
         } catch (e) {
           console.warn('getPayload ERR', e);

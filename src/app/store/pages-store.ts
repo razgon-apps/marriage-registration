@@ -25,6 +25,7 @@ export interface IPageData {
   sharingText?: string;
   checkedAccessPhotoInAlbum?: boolean;
   checkedAccessHaveFun?: boolean;
+  admins?: IGroup[];
 }
 
 export interface IPagesData {

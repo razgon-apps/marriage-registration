@@ -7,9 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { RouterPathEnum } from 'app/providers';
 import { PagesEnum } from 'app/store/pages-store';
 import { useStores } from 'app/store/use-stores';
-import { NAME_PROJECT } from 'shared/constants';
 
 import {
+  AdminPanel,
   AllowAccessPanel,
   CreatePanel,
   LoadingPanel,
@@ -21,7 +21,7 @@ export const Admin = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { UserStore, PagesStore } = useStores();
-  const [activePanel, setActivePanel] = useState<PagesEnum>(PagesEnum.CREATE);
+  const [activePanel, setActivePanel] = useState<PagesEnum>(PagesEnum.ADMIN);
 
   const handleActivePanel = useCallback(
     (event: React.SyntheticEvent<HTMLButtonElement>) => {
@@ -42,12 +42,25 @@ export const Admin = () => {
         <>
           <Box className={classes.container}>
             <Button
+              data-value={PagesEnum.ADMIN}
+              fullWidth
+              radius={8}
+              bg={activePanel === PagesEnum.ADMIN ? '' : '#0e2942'}
+              onClick={handleActivePanel}
+              w="15%"
+              fz={10}
+              pl={8}
+              pr={8}
+            >
+              Админы
+            </Button>
+            <Button
               data-value={PagesEnum.CREATE}
               fullWidth
               radius={8}
               bg={activePanel === PagesEnum.CREATE ? '' : '#0e2942'}
               onClick={handleActivePanel}
-              w="18%"
+              w="15%"
               fz={10}
               pl={8}
               pr={8}
@@ -60,7 +73,7 @@ export const Admin = () => {
               radius={8}
               bg={activePanel === PagesEnum.ALLOW_ACCESS ? '' : '#0e2942'}
               onClick={handleActivePanel}
-              w="18%"
+              w="15%"
               fz={10}
               pl={8}
               pr={8}
@@ -73,7 +86,7 @@ export const Admin = () => {
               radius={8}
               bg={activePanel === PagesEnum.LOADING ? '' : '#0e2942'}
               onClick={handleActivePanel}
-              w="18%"
+              w="15%"
               fz={10}
               pl={8}
               pr={8}
@@ -86,7 +99,7 @@ export const Admin = () => {
               radius={8}
               bg={activePanel === PagesEnum.NEARLY_READY ? '' : '#0e2942'}
               onClick={handleActivePanel}
-              w="18%"
+              w="15%"
               fz={10}
               pl={8}
               pr={8}
@@ -99,7 +112,7 @@ export const Admin = () => {
               radius={8}
               onClick={handleBackButton}
               bg="black"
-              w="20%"
+              w="15%"
               fz={10}
               pl={8}
               pr={8}
@@ -112,6 +125,7 @@ export const Admin = () => {
           {activePanel === PagesEnum.ALLOW_ACCESS && <AllowAccessPanel />}
           {activePanel === PagesEnum.LOADING && <LoadingPanel />}
           {activePanel === PagesEnum.NEARLY_READY && <NearlyReadyPanel />}
+          {activePanel === PagesEnum.ADMIN && <AdminPanel />}
         </>
       ) : null}
     </Box>
