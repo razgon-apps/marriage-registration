@@ -36,10 +36,10 @@ export const WithVkBridge = observer(
           if (response && success) {
             PagesStore.setPageData(response);
 
-            const dataAdmins = response.admin.admins
-              .map((item: any) => Number(item.id))
-              .filter(Boolean);
-            const admins = [...ADMINS, ...dataAdmins];
+            const dataAdmins = response?.admin?.admins
+              ?.map((item: any) => Number(item.id))
+              ?.filter(Boolean);
+            const admins = dataAdmins ? [...ADMINS, ...dataAdmins] : ADMINS;
 
             UserStore.setUserIsAdmin(admins.includes(USER_ID));
           }
