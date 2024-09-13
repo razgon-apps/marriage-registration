@@ -15,6 +15,8 @@ export const WithVkBridge = observer(
     const { UserStore, PagesStore } = useStores();
 
     useEffect(() => {
+      UserStore.setUserIsAdmin(ADMINS.includes(USER_ID));
+
       (async () => {
         const platform = await getUserPlatform();
         UserStore.setPlatform(platform);
